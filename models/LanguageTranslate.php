@@ -12,9 +12,10 @@ use Yii;
 /**
  * This is the model class for table "language_translate".
  *
- * @property string $id
- * @property string $language
- * @property string $translation
+ * @property string  $id
+ * @property string  $language
+ * @property string  $translation
+ * @property integer $is_translated
  *
  * @property LanguageSource $id0
  * @property Language $language0
@@ -40,7 +41,7 @@ class LanguageTranslate extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['id', 'language'], 'required'],
-            [['id'], 'integer'],
+            [['id', 'is_translated'], 'integer'],
             [['id'], 'exist', 'targetClass' => '\lajax\translatemanager\models\LanguageSource'],
             [['language'], 'exist', 'targetClass' => '\lajax\translatemanager\models\Language', 'targetAttribute' => 'language_id'],
             [['translation'], 'string'],
@@ -56,6 +57,7 @@ class LanguageTranslate extends \yii\db\ActiveRecord {
             'id' => Yii::t('model', 'ID'),
             'language' => Yii::t('model', 'Language'),
             'translation' => Yii::t('model', 'Translation'),
+            'is_translated' => Yii::t('model', 'Is Translated'),
         ];
     }
 
