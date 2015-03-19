@@ -29,11 +29,11 @@ class LanguageController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['list', 'change-status', 'optimizer', 'scan', 'translate', 'save', 'dialog', 'message', 'view', 'create', 'update', 'delete', 'delete-source'],
+                'only' => ['list', 'change-status', 'optimizer', 'scan', 'translate', 'google', 'save', 'dialog', 'message', 'view', 'create', 'update', 'delete', 'delete-source'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['list', 'change-status', 'optimizer', 'scan', 'translate', 'save', 'dialog', 'message', 'view', 'create', 'update', 'delete', 'delete-source'],
+                        'actions' => ['list', 'change-status', 'optimizer', 'scan', 'translate', 'google', 'save', 'dialog', 'message', 'view', 'create', 'update', 'delete', 'delete-source'],
                         'roles' => $this->module->roles,
                     ],
                 ],
@@ -64,8 +64,14 @@ class LanguageController extends Controller {
             'translate' => [
                 'class' => 'lajax\translatemanager\controllers\actions\TranslateAction',
             ],
+            'translate-all' => [
+                'class' => 'lajax\translatemanager\controllers\actions\TranslateAllAction',
+            ],
             'save' => [
                 'class' => 'lajax\translatemanager\controllers\actions\SaveAction',
+            ],
+            'google' => [
+                'class' => 'lajax\translatemanager\controllers\actions\GoogleAction',
             ],
             'dialog' => [
                 'class' => 'lajax\translatemanager\controllers\actions\DialogAction',

@@ -131,6 +131,7 @@ class m141002_030233_translate_manager extends Migration {
             'id' => Schema::TYPE_INTEGER . '(10) unsigned NOT NULL',
             'language' => Schema::TYPE_STRING . '(5) NOT NULL',
             'translation' => Schema::TYPE_TEXT,
+            'is_translated' => Schema::TYPE_SMALLINT . '(1) NOT NULL DEFAULT 0',
             'PRIMARY KEY (id, language)',
             'KEY `language` (language)'
         ], $tableOptions);

@@ -4,9 +4,11 @@
  * @since 1.0
  */
 
+use lajax\translatemanager\models\LanguageTranslate;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /* @var $this \yii\web\View */
 /* @var $language_id integer */
@@ -21,7 +23,20 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= $this->title ?>
 </h1>
     <?= Html::hiddenInput('language_id', $language_id, ['id' => 'language_id', 'data-url' => Yii::$app->urlManager->createAbsoluteUrl('/translatemanager/language/save')]); ?>
+    <?= Html::hiddenInput('google_lang_id', $language_id, ['id' => 'google_lang_id', 'data-url' => Yii::$app->urlManager->createAbsoluteUrl('/translatemanager/language/google')]); ?>
+    <?= Html::a(Yii::t('mycheck', 'Translate all'), Url::toRoute(['language/translate-all?' . Yii::$app->request->queryString]), ['class' => 'btn btn-success']) ?>
 <div id="translates">
+
+    <?php
+    var_dump(Yii::$app->request->queryParams);
+    var_dump(Yii::$app->request->queryString);
+//    var_dump($language_id);
+//    var_dump(Yii::$app->sourceLanguage);
+//    var_dump(Yii::$app->i18n->translations['*']->sourceLanguage);
+//    var_dump(Yii::$app->translatemanager);
+//        var_dump(Yii::$app->i18n->translations['*']['sourceLanguage']);
+//        var_dump($dataProvider);
+    ?>
     <?php
     Pjax::begin([
         'id' => 'translates'
@@ -55,10 +70,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 [
+                    'format' => 'text',
+                    'filter' => LanguageTranslate::getStatusNames(),
+                    'attribute' => 'is_translated',
+                    'filterInputOptions' => ['class' => 'form-control', 'id' => 'is_translated'],
+                    'label' => Yii::t('language', 'Status'),
+                    'content' => function ($data) {
+                        return Html::activeDropDownList($data, 'is_translated', LanguageTranslate::getStatusNames(), ['class' => 'is_translated', 'id' => $data['id'], 'data-url' => Yii::$app->urlManager->createUrl('/translatemanager/language/save')]);
+                    },
+                ],
+                [
                     'format' => 'html',
                     'attribute' => Yii::t('language', 'Action'),
+//                    'filterInputOptions' => ['class' => 'form-control', 'id' => 'google'],
                     'content' => function ($data) {
-                        return Html::button(Yii::t('language', 'Save'), ['type' => 'button', 'data-id' => $data['id'], 'class' => 'btn btn-lg btn-success']);
+                        return Html::button(Yii::t('language', 'Save'), ['type' => 'button', 'data-id' => $data['id'], 'class' => 'btn btn-xs btn-success']) . ' ' .
+                        Html::button(Yii::t('language', 'Google API'), ['type' => 'button', /*'id' => 'google',*/  'data-id' => $data['id'], 'class' => 'btn btn-xs btn-success google-btn']);
                     },
                 ],
             ],

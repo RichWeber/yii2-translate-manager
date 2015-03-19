@@ -23,6 +23,8 @@ class LanguageSource extends \yii\db\ActiveRecord {
 
     const INSERT_LANGUAGE_ITEMS_LIMIT = 10;
 
+    public $is_translated;
+
     /**
      * @inheritdoc
      */

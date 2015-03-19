@@ -29,6 +29,19 @@ var translate = (function () {
     }
 
     /**
+    * @param {object} $this
+    */
+    function _translateGoogle($this) {
+        var data = {
+            id: $this.data('id'),
+            language_id: $('#google_lang_id').val(),
+            source: $.trim($this.closest('tr').find('.source').val())
+        };
+
+        helpers.post($('#google_lang_id').data('url'), data);
+    }
+
+    /**
      * @param {object} $this
      */
     function _copySourceToTranslation($this) {
@@ -36,11 +49,15 @@ var translate = (function () {
             $this.closest('tr').find('.translation').val($.trim($this.val()));
         }
 
-        _translateLanguage($this.closest('tr').find('button'));
+        _translateGoogle($this.closest('tr').find('button'));
     }
 
     return {
         init: function () {
+            $('.google-btn').on('click', 'button', function () {
+                alert('Google');
+                //_translateGoogle($(this));
+            });
             $('#translates').on('click', '.source', function () {
                 _copySourceToTranslation($(this));
             });
