@@ -25,12 +25,12 @@ class LanguageTranslate extends \yii\db\ActiveRecord {
     /**
      * Status of inactive language.
      */
-    const STATUS_INACTIVE = 0;
+    const STATUS_NOT_TRANSLATED = 0;
 
     /**
      * Status of active language.
      */
-    const STATUS_ACTIVE = 1;
+    const STATUS_TRANSLATED = 1;
 
     /**
      * Array containing possible states.
@@ -38,8 +38,8 @@ class LanguageTranslate extends \yii\db\ActiveRecord {
      * @translate
      */
     private static $_CONDITIONS = [
-        self::STATUS_INACTIVE => 'Not translated',
-        self::STATUS_ACTIVE => 'All OK',
+        self::STATUS_NOT_TRANSLATED => 'Not translated',
+        self::STATUS_TRANSLATED => 'Translated',
     ];
 
     /**

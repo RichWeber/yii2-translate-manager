@@ -43,7 +43,7 @@ class TranslateAllAction extends \yii\base\Action {
                 $languageTranslate = LanguageTranslate::findOne(['id' => $source->id, 'language' => $languageId]) ? :
                     new LanguageTranslate(['id' => $source->id, 'language' => $languageId]);
 
-                if (!$languageTranslate->is_translated) {
+                if (!$languageTranslate->is_translated || is_null($languageTranslate->is_translated)) {
                     $google = Yii::$app->translate->translate(
                         substr(Yii::$app->i18n->translations['*']->sourceLanguage, 0, 2),
                         substr($languageId, 0, 2),
@@ -57,7 +57,7 @@ class TranslateAllAction extends \yii\base\Action {
                     }
 
                     $languageTranslate->translation = $google['data']['translations'][0]['translatedText'];
-                    $languageTranslate->is_translated = 1;
+                    $languageTranslate->is_translated = LanguageTranslate::STATUS_TRANSLATED;
                     if ($languageTranslate->validate() && $languageTranslate->save()) {
                         //
                     }

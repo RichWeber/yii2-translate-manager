@@ -24,19 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
 </h1>
     <?= Html::hiddenInput('language_id', $language_id, ['id' => 'language_id', 'data-url' => Yii::$app->urlManager->createAbsoluteUrl('/translatemanager/language/save')]); ?>
     <?= Html::hiddenInput('google_lang_id', $language_id, ['id' => 'google_lang_id', 'data-url' => Yii::$app->urlManager->createAbsoluteUrl('/translatemanager/language/google')]); ?>
-    <?= Html::a(Yii::t('mycheck', 'Translate all'), Url::toRoute(['language/translate-all?' . Yii::$app->request->queryString]), ['class' => 'btn btn-success']) ?>
+
 <div id="translates">
 
-    <?php
-    var_dump(Yii::$app->request->queryParams);
-    var_dump(Yii::$app->request->queryString);
-//    var_dump($language_id);
-//    var_dump(Yii::$app->sourceLanguage);
-//    var_dump(Yii::$app->i18n->translations['*']->sourceLanguage);
-//    var_dump(Yii::$app->translatemanager);
-//        var_dump(Yii::$app->i18n->translations['*']['sourceLanguage']);
-//        var_dump($dataProvider);
-    ?>
+    <?= Html::a(Yii::t('mycheck', 'Translate all'), Url::toRoute(['language/translate-all?' . Yii::$app->request->queryString]), ['class' => 'btn btn-success']) ?>
     <?php
     Pjax::begin([
         'id' => 'translates'
@@ -76,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'filterInputOptions' => ['class' => 'form-control', 'id' => 'is_translated'],
                     'label' => Yii::t('language', 'Status'),
                     'content' => function ($data) {
-                        return Html::activeDropDownList($data, 'is_translated', LanguageTranslate::getStatusNames(), ['class' => 'is_translated', 'id' => $data['id'], 'data-url' => Yii::$app->urlManager->createUrl('/translatemanager/language/save')]);
+                        return Html::activeDropDownList($data, 'is_translated', LanguageTranslate::getStatusNames(), ['class' => 'is_translated', 'id' => $data['id'], 'data-url' => Yii::$app->urlManager->createUrl('/translatemanager/language/change-status-translate')]);
                     },
                 ],
                 [

@@ -28,19 +28,23 @@ class GoogleAction extends \yii\base\Action {
         $languageTranslate = LanguageTranslate::findOne(['id' => $id, 'language' => $languageId]) ? :
                 new LanguageTranslate(['id' => $id, 'language' => $languageId]);
 
-        $google = Yii::$app->translate->translate(
-            substr(Yii::$app->i18n->translations['*']->sourceLanguage, 0, 2),
-            substr($languageId, 0, 2),
-            Yii::$app->request->post('source', '')
-        );
+        if (!$languageTranslate->is_translated || is_null($languageTranslate->is_translated)) {
+            $google = Yii::$app->translate->translate(
+                substr(Yii::$app->i18n->translations['*']->sourceLanguage, 0, 2),
+                substr($languageId, 0, 2),
+                Yii::$app->request->post('source', '')
+            );
 
-        if (!isset($google['data']['translations'][0]['translatedText'])
-            || empty($google['data']['translations'][0]['translatedText'])
-        ) {
-            return ['Unabled make translate whith Google Translate API'];
+            if (!isset($google['data']['translations'][0]['translatedText'])
+                || empty($google['data']['translations'][0]['translatedText'])
+            ) {
+                return ['Unabled make translate whith Google Translate API'];
+            }
+
+            $languageTranslate->translation = $google['data']['translations'][0]['translatedText'];
+            $languageTranslate->is_translated = LanguageTranslate::STATUS_TRANSLATED;
         }
 
-        $languageTranslate->translation = $google['data']['translations'][0]['translatedText'];
         if ($languageTranslate->validate() && $languageTranslate->save()) {
             $generator = new Generator($this->controller->module, $languageId);
 
